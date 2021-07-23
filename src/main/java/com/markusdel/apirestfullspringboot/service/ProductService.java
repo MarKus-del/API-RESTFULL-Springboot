@@ -41,7 +41,6 @@ public class ProductService {
         Product productIfExists = repository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
 
-        productIfExists.setDescription(updateProductDTO.getDescription());
         productIfExists.setAmount(updateProductDTO.getAmount());
         productIfExists.setPrice(updateProductDTO.getPrice());
 

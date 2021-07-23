@@ -15,11 +15,6 @@ import java.math.BigDecimal;
 public class UpdateProductDTO {
 
     @NotNull
-    @NotBlank
-    @Size(min = 15, max = 60)
-    private String description;
-
-    @NotNull
     @DecimalMax(value = "1000.00")
     @DecimalMin(value = "0.30")
     private BigDecimal price;
