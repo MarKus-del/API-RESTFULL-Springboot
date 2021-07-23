@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      target: development
+    volumes:
+      - ./:/app
+    environment:
+      - PROFILE_ACTIVE=dev
+      - PG_URL=DB
+      - PG_DB_NAME=apirestfull
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=root
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+
+  db:
+    image: postgres:11
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.docker/PGDATA:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=apirestfull
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@user.com
+      - PGADMIN_DEFAULT_PASSWORD=123456
+    ports:
+      - 9000:80
+    depends_on:
+      - db
