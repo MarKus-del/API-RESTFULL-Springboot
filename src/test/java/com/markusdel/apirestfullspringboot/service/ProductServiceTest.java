@@ -33,7 +33,6 @@ public class ProductServiceTest {
     @InjectMocks
     private ProductService service;
 
-
     @Test
     void quandoUmProdutoForCriado() {
         // given
