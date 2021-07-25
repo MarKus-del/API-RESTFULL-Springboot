@@ -8,6 +8,7 @@ import com.markusdel.apirestfullspringboot.repository.ProductRepository;
 import com.markusdel.apirestfullspringboot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/products")
-public class ProductController {
+public class ProductController implements ProductControllerDocs {
 
     @Autowired
     private ProductService service;
@@ -33,7 +34,7 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity postProduct(@Valid @RequestBody CreateProductDTO createProductDTO) {
+    public ResponseEntity<EntityModel<Product>> postProduct(@Valid @RequestBody CreateProductDTO createProductDTO) {
         var productCreated = service.createNewProduct(createProductDTO);
         var productEntityModel = assembler.toModel(productCreated);
 
@@ -43,7 +44,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity getAllProduct() {
+    public ResponseEntity<CollectionModel<EntityModel<Product>>> getAllProduct() {
         var productEntityModel = service.getAllProduct()
                 .stream().map(assembler::toModel)
                 .collect(Collectors.toList());
@@ -56,13 +57,13 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getProduct(@PathVariable Long id) {
+    public ResponseEntity<EntityModel<Product>> getProduct(@PathVariable Long id) {
         var productEntityModel = assembler.toModel(service.getProductById(id));
         return ResponseEntity.ok(productEntityModel);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateProductById(
+    public ResponseEntity<EntityModel<Product>> updateProductById(
             @PathVariable Long id,
             @RequestBody @Valid UpdateProductDTO updateProductDTO
     ) {
