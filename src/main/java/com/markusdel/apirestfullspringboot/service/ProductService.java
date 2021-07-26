@@ -21,7 +21,6 @@ public class ProductService {
     private ProductMapper mapper = ProductMapper.INSTANCE;
 
     public Product createNewProduct(CreateProductDTO createProductDTO) {
-        System.out.println(createProductDTO.toString());
         Product newProduct = mapper.toModel(createProductDTO);
 
         return repository.save(newProduct);

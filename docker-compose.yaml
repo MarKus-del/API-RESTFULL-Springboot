@@ -8,7 +8,7 @@ services:
     volumes:
       - ./:/app
     environment:
-      - PROFILE_ACTIVE=dev
+      - PROFILE_ACTIVE=prod
       - PG_URL=DB
       - PG_DB_NAME=apirestfull
       - PG_USERNAME=postgres

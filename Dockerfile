@@ -11,7 +11,7 @@ COPY src ./src
 FROM base as development
 CMD ["./mvnw", "spring-boot:run"]
 
-from base as build
+FROM base as build
 RUN ./mvnw package
 
 FROM openjdk:11-jre-slim as production
